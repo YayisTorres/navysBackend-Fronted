@@ -29,7 +29,7 @@
 ### 👥 Administrar Usuarios
 ![User Management](https://github.com/YayisTorres/NAVYSangular/blob/main/public/img/administrador-usuarios.png)
 
-*Panel de gestión de usuarios con filtros y paginación avanzada*
+*Panel de gestión de usuarios con filtros y paginación *
 
 ### 📦 Administrar Productos
 ![Product Management](https://github.com/YayisTorres/NAVYSangular/blob/main/public/img/gestor-productos.png)
@@ -61,7 +61,6 @@
 ###  ❤️ Favoritos
 ![Pagina Favoritos](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/favoritos.png)
 
-*Carrusel interactivo de productos con navegación automática*
 
 ### 🎠 Sugerencias Productos
 ![sugerencias](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/sugerencias.png)
