@@ -112,7 +112,7 @@ A continuación se muestra el diagrama relacional del sistema NAVYS, que represe
 
 ### Imagen del Diagrama Relacional
 
-![Diagrama Relacional NAVYS](../mnt/data/NAVYS%20RELACIONAL.png)
+![Diagrama Relacional NAVYS](https://github.com/YayisTorres/NAVYSangular/blob/main/public/img/NAVYS%20RELACIONAL.png)
 
 ---
 
