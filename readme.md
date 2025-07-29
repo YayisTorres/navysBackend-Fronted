@@ -5,8 +5,8 @@
 - **Nombre del Proyecto:** Navy's - Sistema de Gestión de Tienda Online  
 - **Número de equipo:** 13
 - **Integrantes:**  
-  - Guadalupe Dayanira Torres Quiroz – Desarrolladora Fullstack
-  - Maria de Lourdes Hernaández Hernández
+  - Guadalupe Dayanira Torres Quiroz (Front-end)
+  - Maria de Lourdes Hernaández Hernández(Back-end)
 
 - **¿Qué hace el sistema?**  
   Es un sistema web que permite gestionar una tienda de vestidos de XV años y bautizos.  
