@@ -61,6 +61,7 @@
 ###  ❤️ Favoritos
 ![Pagina Favoritos](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/favoritos.png)
 
+*se muestra la pagina de favoritos*
 
 ### 🎠 Sugerencias Productos
 ![sugerencias](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/sugerencias.png)
