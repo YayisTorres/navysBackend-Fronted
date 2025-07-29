@@ -1,0 +1,322 @@
+<div class="dashboard-container">
+
+<!-- Sidebar Menu Component -->
+<app-sidebar-menu 
+  [isOpen]="isSidebarOpen" 
+  (close)="closeSidebar()">
+</app-sidebar-menu>
+
+<!-- Header integrado en el dashboard -->
+<header class="dashboard-navbar">
+  <div class="navbar-content">
+    <!-- Left side - Menu and user info -->
+    <div class="navbar-left">
+      <button class="menu-btn" (click)="toggleSidebar()" title="Abrir menú">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+      <div class="user-info" *ngIf="currentUser">
+        <div class="user-avatar">
+          <img 
+            *ngIf="currentUser.photo; else avatarFallback"
+            [src]="currentUser.photo" 
+            [alt]="currentUser.name"
+            class="avatar-img"
+          >
+          <ng-template #avatarFallback>
+            <div class="avatar-fallback">
+              {{ getInitials(currentUser.name) }}
+            </div>
+          </ng-template>
+        </div>
+        
+        <div class="user-details">
+          <p class="welcome-text">Bienvenido {{ currentUser.role | titlecase }}</p>
+          <p class="user-name">{{ currentUser.name }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right side - Action buttons -->
+    <div class="navbar-right">
+      <button class="nav-btn home-btn" (click)="goToHome()" title="Página principal">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      </button>
+    
+      <button class="nav-btn logout-btn" (click)="logout()" title="Cerrar sesión">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Loading -->
+<div *ngIf="loading" class="loading-container">
+  <div class="loading-spinner"></div>
+  <p>Cargando dashboard...</p>
+</div>
+
+<!-- Dashboard Content -->
+<div *ngIf="!loading" class="dashboard-content">
+  
+  <!-- Welcome Section -->
+  <div class="dashboard-header">
+    <div class="welcome-section">
+      <h1 class="dashboard-title">
+        <span class="greeting">{{ getGreeting() }}</span>
+        <span class="user-name">{{ currentUser?.name }}! 👋</span>
+      </h1>
+      <p class="dashboard-subtitle">
+        Aquí tienes un resumen de tu negocio hoy
+      </p>
+    </div>
+    <div class="header-actions">
+      <button class="action-btn secondary" (click)="goToProducts()">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 2L3 7v11a2 2 0 002 2h10a2 2 0 002-2V7l-7-5zM8 15V9h4v6H8z" clip-rule="evenodd"></path>
+        </svg>
+        Ver Productos
+      </button>
+      <button class="action-btn primary" (click)="goToNewProduct()">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+        </svg>
+        Nuevo Producto
+      </button>
+      <button 
+        *ngIf="authService.isAdmin() || authService.isEmpleado()" 
+        class="action-btn orders-admin" 
+        (click)="goToOrdersAdmin()"
+      >
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clip-rule="evenodd"></path>
+        </svg>
+        Gestionar Pedidos
+      </button>
+      <button 
+        *ngIf="authService.isAdmin()" 
+        class="action-btn success" 
+        (click)="goToUserManagement()"
+      >
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
+          <path d="M6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
+        </svg>
+        Administrar Usuarios
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card products">
+      <div class="stat-icon">
+        <svg width="32" height="32" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 2L3 7v11a2 2 0 002 2h10a2 2 0 002-2V7l-7-5zM8 15V9h4v6H8z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3 class="stat-value">{{ stats.totalProducts }}</h3>
+        <p class="stat-label">Total Productos</p>
+        <div class="stat-info">
+          <span class="info-item">{{ stats.lowStock }} con stock bajo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card users" *ngIf="authService.isAdmin()">
+      <div class="stat-icon">
+        <svg width="32" height="32" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
+          <path d="M6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3 class="stat-value">{{ stats.totalUsers }}</h3>
+        <p class="stat-label">Usuarios Registrados</p>
+        <div class="stat-info">
+          <span class="info-item">Creciendo cada día</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card inventory">
+      <div class="stat-icon">
+        <svg width="32" height="32" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3 class="stat-value">{{ stats.lowStock }}</h3>
+        <p class="stat-label">Stock Bajo</p>
+        <div class="stat-info">
+          <span class="info-item">Requieren atención</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="main-grid">
+    
+    <!-- Quick Actions -->
+    <div class="actions-card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
+          </svg>
+          Acciones Rápidas
+        </h3>
+      </div>
+      <div class="actions-grid">
+        <button class="action-item" (click)="goToProducts()">
+          <div class="action-icon products-icon">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 2L3 7v11a2 2 0 002 2h10a2 2 0 002-2V7l-7-5zM8 15V9h4v6H8z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <div class="action-content">
+            <h4>Ver Productos</h4>
+            <p>Gestionar inventario</p>
+          </div>
+        </button>
+
+        <button class="action-item" (click)="goToNewProduct()">
+          <div class="action-icon add-icon">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <div class="action-content">
+            <h4>Nuevo Producto</h4>
+            <p>Agregar al inventario</p>
+          </div>
+        </button>
+
+        <button 
+          *ngIf="authService.isAdmin() || authService.isEmpleado()" 
+          class="action-item" 
+          (click)="goToOrdersAdmin()"
+        >
+          <div class="action-icon orders-admin-icon">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <div class="action-content">
+            <h4>Gestionar Pedidos</h4>
+            <p>Actualizar estados de pedidos</p>
+          </div>
+        </button>
+
+        <button 
+          *ngIf="authService.isAdmin()" 
+          class="action-item" 
+          (click)="goToUserManagement()"
+        >
+          <div class="action-icon users-icon">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
+              <path d="M6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
+            </svg>
+          </div>
+          <div class="action-content">
+            <h4>Administrar Usuarios</h4>
+            <p>Administrar usuarios del sistema</p>
+          </div>
+        </button>
+
+        <button class="action-item" (click)="goToHome()">
+          <div class="action-icon home-icon">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+            </svg>
+          </div>
+          <div class="action-content">
+            <h4>Página Principal</h4>
+            <p>Volver al inicio</p>
+          </div>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Recent Data -->
+  <div class="recent-grid">
+    
+    <!-- Recent Products -->
+    <div class="recent-card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2L3 7v11a2 2 0 002 2h10a2 2 0 002-2V7l-7-5zM8 15V9h4v6H8z" clip-rule="evenodd"></path>
+          </svg>
+          Productos Recientes
+        </h3>
+        <button class="view-all-link" (click)="goToProducts()">Ver todos</button>
+      </div>
+      <div class="recent-list">
+        <div *ngFor="let product of recentProducts; trackBy: trackByFn" class="recent-item">
+          <div class="item-icon product-item">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 2L3 7v11a2 2 0 002 2h10a2 2 0 002-2V7l-7-5zM8 15V9h4v6H8z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <div class="item-content">
+            <h4 class="item-title">{{ product.name }}</h4>
+            <p class="item-subtitle">{{ product.category }}</p>
+          </div>
+          <div class="item-meta">
+            <span class="item-price">${{ product.price }}</span>
+            <span class="item-stock" 
+                  [class.low-stock]="product.quantity < 10">
+              Stock: {{ product.quantity }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Users (Admin only) -->
+    <div class="recent-card" *ngIf="authService.isAdmin()">
+      <div class="card-header">
+        <h3 class="card-title">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
+          </svg>
+          Usuarios Recientes
+        </h3>
+        <button class="view-all-link" (click)="goToUserManagement()">Administrar usuarios</button>
+      </div>
+      <div class="recent-list">
+        <div *ngFor="let user of recentUsers; trackBy: trackByFn" class="recent-item">
+          <div class="item-icon user-item">
+            <div class="user-avatar-small">
+              {{ getInitials(user.name + ' ' + user.lastName) }}
+            </div>
+          </div>
+          <div class="item-content">
+            <h4 class="item-title">{{ user.name }} {{ user.lastName }}</h4>
+            <p class="item-subtitle">{{ user.email }}</p>
+          </div>
+          <div class="item-meta">
+            <span class="user-role" [ngClass]="'role-' + user.role">
+              {{ user.role | titlecase }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</div>

@@ -1,0 +1,106 @@
+<div 
+  class="sidebar-overlay" 
+  [class.open]="isOpen"
+  (click)="onBackdropClick()"
+  *ngIf="isOpen"
+>
+  <div 
+    class="sidebar-menu" 
+    [class.open]="isOpen"
+    (click)="onMenuClick($event)"
+  >
+    <!-- Header -->
+    <div class="sidebar-header">
+      <div class="header-content">
+        <div class="logo-section">
+          <div class="logo-icon">
+            <svg width="32" height="32" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <h2 class="app-name">Mi Tienda</h2>
+            <p class="app-subtitle">Panel de Control</p>
+          </div>
+        </div>
+        
+        <button class="close-btn" (click)="closeMenu()">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menu Items -->
+    <div class="sidebar-content">
+      <nav class="menu-nav">
+        <ul class="menu-list">
+          <li 
+            *ngFor="let item of menuItems; trackBy: trackByFn" 
+            class="menu-item"
+            [class.hidden]="!shouldShowItem(item)"
+          >
+            <button 
+              class="menu-button"
+              (click)="executeAction(item)"
+              [attr.data-item]="item.id"
+            >
+              <div class="menu-icon">
+                <!-- Home Icon -->
+                <svg *ngIf="item.icon === 'home'" width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                </svg>
+                
+                <!-- Dashboard Icon -->
+                <svg *ngIf="item.icon === 'dashboard'" width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path>
+                </svg>
+                
+                <!-- Products Icon -->
+                <svg *ngIf="item.icon === 'products'" width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 2L3 7v11a2 2 0 002 2h10a2 2 0 002-2V7l-7-5zM8 15V9h4v6H8z" clip-rule="evenodd"></path>
+                </svg>
+                
+                <!-- Add Icon -->
+                <svg *ngIf="item.icon === 'add'" width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+                </svg>
+                
+                <!-- Orders Icon -->
+                <svg *ngIf="item.icon === 'orders'" width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clip-rule="evenodd"></path>
+                </svg>
+                
+                <!-- Users Icon -->
+                <svg *ngIf="item.icon === 'users'" width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
+                  <path d="M6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
+                </svg>
+              </div>
+              
+              <div class="menu-content">
+                <h3 class="menu-title">{{ item.title }}</h3>
+                <p class="menu-description">{{ item.description }}</p>
+              </div>
+              
+              <div class="menu-arrow">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Footer -->
+    <div class="sidebar-footer">
+      <div class="footer-content">
+        <p class="footer-text">© 2024 Mi Tienda</p>
+        <p class="footer-version">v1.0.0</p>
+      </div>
+    </div>
+  </div>
+</div>
