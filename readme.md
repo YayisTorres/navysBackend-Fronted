@@ -266,6 +266,7 @@ toggleFavorite(productId: string): Observable<any>
 *Seleccionas un producto y te da sugerencias de productos relacionados con el producto seleccionado *
 
 
+
 ## 🛠️ Tecnologías Utilizadas
 
 ### Frontend
