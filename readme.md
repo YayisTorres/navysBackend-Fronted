@@ -259,6 +259,7 @@ toggleFavorite(productId: string): Observable<any>
 *Muestra la pagina de favoritos*
 
 ### 🎠 Sugerencias Productos
+
 ![sugerencias](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/sugerencias.png)
 
 *Seleccionas un producto y te da sugerencias de productos relacionados con el producto seleccionado *
