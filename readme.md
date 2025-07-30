@@ -16,20 +16,25 @@
 
 ## 📸 Capturas de Pantalla
 
-### 🔐 Página de Login
-![Login Page](https://github.com/YayisTorres/NAVYSangular/blob/main/public/img/login.png)
+### 🔐 Página de Login (logueo)
+![Login error](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/loginerror.png)
+![Login correcto](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/login.png)
 
 *Página de inicio de sesión con validación de formularios y diseño responsive*
 
-### 🏠 Página Principal
-![Home Page](https://github.com/YayisTorres/NAVYSangular/blob/main/public/img/paginaprincipal.png)
+### 🏠 Niveles Usuarios 
+![Pagina Usuario](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/carrusel.png)
+![Pagina Administrador](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/dashboartprincipal.png)
+*Dashboard administrativo con estadísticas y accesos rápidos*
+### 👥 Administrar Usuarios
+![User Management](https://github.com/YayisTorres/NAVYSangular/blob/main/public/img/administrador-usuarios.png)
 
-*Página principal con carrusel de imágenes y productos destacados*
+*Panel de gestión de usuarios con filtros y paginación *
 
-### ❤️ Página de Favoritos
-![Favorites Page](https://github.com/YayisTorres/NAVYSangular/blob/main/public/img/favoritos.png)
+### 📦 Administrar Productos
+![Product Management](https://github.com/YayisTorres/NAVYSangular/blob/main/public/img/gestor-productos.png)
 
-*Lista de productos favoritos del usuario con opciones de gestión*
+### Procesos Principales 
 
 ### 📦 Mis Pedidos
 ![Orders Page](https://github.com/YayisTorres/NAVYSangular/blob/main/public/img/pedidos.png)
@@ -46,23 +51,23 @@
 
 *Formulario de checkout con información de envío y pago*
 
-### 🎠 Carrusel de Productos
-![Product Carousel](https://github.com/YayisTorres/NAVYSangular/blob/main/public/img/carrusel.png)
+### 🎛️ Envio de Correos 
+![Envio de Correo](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/enviocorreo.png)
+![Correo Recibido](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/correorecibido.png)
+*Se envia un correo para confirmar al usuario que su pedido se a registrado correctamente*
 
-*Carrusel interactivo de productos con navegación automática*
+### Otros
 
-### 🎛️ Panel Administrador
-![Admin Dashboard](https://github.com/YayisTorres/NAVYSangular/blob/main/public/img/dashboartprincipal.png)
+###  ❤️ Favoritos
+![Pagina Favoritos](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/favoritos.png)
 
-*Dashboard administrativo con estadísticas y accesos rápidos*
+*Muestra la pagina de favoritos*
 
-### 👥 Administrar Usuarios
-![User Management](https://github.com/YayisTorres/NAVYSangular/blob/main/public/img/administrador-usuarios.png)
+### 🎠 Sugerencias Productos
+![sugerencias](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/sugerencias.png)
 
-*Panel de gestión de usuarios con filtros y paginación avanzada*
+*Seleccionas un producto y te da sugerencias de productos relacionados con el producto seleccionado *
 
-### 📦 Administrar Productos
-![Product Management](https://github.com/YayisTorres/NAVYSangular/blob/main/public/img/gestor-productos.png)
 
 ## 🛠️ Tecnologías Utilizadas
 
