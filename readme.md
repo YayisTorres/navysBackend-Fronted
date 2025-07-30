@@ -10,8 +10,203 @@
 
 - **¿Qué hace el sistema?**  
   Es un sistema web que permite gestionar una tienda de vestidos de XV años y bautizos.  
+### ✨ Para Clientes
+- **Catálogo de productos** con filtros avanzados
+- **Sistema de favoritos** personalizado
+- **Carrito de compras** con persistencia
+- **Proceso de checkout** completo
+- **Seguimiento de pedidos** en tiempo real
+- **Perfil de usuario** editable
 
-- **Tipo de sistema:** Sistema Web  
+### 🔧 Para Administradores
+- **Panel de administración** completo
+- **Gestión de productos** (CRUD completo)
+- **Administración de usuarios** con roles
+- **Gestión de pedidos** y estados
+- **Dashboard con estadísticas**
+- **Sistema de notificaciones**
+- **Tipo de sistema:** Sistema Web
+- ## Análisis Relacional
+
+### Tabla: USERS
+- **Llave primaria:** `id`
+- Relaciones:
+  - Tiene muchos **favorites**
+  - Tiene muchos **cart_items**
+  - Tiene muchas **orders**
+- Eliminación en cascada:
+  - ✅ Al eliminar un usuario, también se eliminan:
+    - sus **favoritos**
+    - sus **carrito de compras**
+    - sus **órdenes**
+  - ❌ No se eliminan sus productos, ya que la relación entre `users` y `products` no está explícita. La tabla `products` no tiene `user_id`.
+
+---
+
+### Tabla: PRODUCTS
+- **Llave primaria:** `id`
+- Relaciones:
+  - Es referenciada por:
+    - **favorites**
+    - **cart_items**
+    - **order_items**
+- Eliminación:
+  - ❌ Si se elimina un producto, **no se indica** si se eliminan favoritos, carritos u órdenes relacionados.
+  - Sería necesario implementar `ON DELETE CASCADE` para mantener integridad referencial.
+
+---
+
+### Tabla: FAVORITES
+- Contiene:
+  - `user_id` (FK)
+  - `product_id` (FK)
+- ✅ Se elimina cuando se borra el usuario (relación directa).
+- ✅ Se elimina cuando se borra el producto, **si y solo si** hay ON DELETE CASCADE (no visible en el diagrama).
+
+---
+
+### Tabla: CART_ITEMS
+- Contiene:
+  - `user_id` (FK)
+  - `product_id` (FK)
+- ✅ Se borra al eliminar el usuario.
+- ❌ No se indica que se borre si se elimina el producto.
+
+---
+
+### Tabla: ORDERS
+- Contiene:
+  - `user_id` (FK)
+  - Datos extensos de envío, pago y estatus.
+- ✅ Se elimina al borrar el usuario.
+
+---
+
+### Tabla: ORDER_ITEMS
+- Contiene:
+  - `order_id` (FK)
+  - Datos redundantes del producto (nombre, precio, etc.)
+- ✅ Se elimina al borrar la orden.
+
+---
+
+### Tabla: PERSONAL_ACCESS_TOKENS
+- Tokens de autenticación vinculados a usuarios (indirectamente con `tokenable_id`)
+- ❌ No se borra automáticamente si se elimina un usuario (no hay relación directa visible).
+
+---
+
+### Tabla: MIGRATIONS
+- Tabla de control de versiones de migraciones de Laravel.
+- No se relaciona con otras tablas.
+
+---
+
+## Conclusiones
+- ✅ Al borrar un usuario, sí se eliminan:
+  - Sus favoritos
+  - Sus carritos
+  - Sus órdenes y los ítems relacionados
+- ❌ No se eliminan productos que podrían haber sido subidos por el usuario (la tabla `products` no tiene `user_id`)
+## 🎯 Funcionalidades por Módulo
+
+### 🔐 Autenticación
+- **Login/Registro** con validación
+- **Recuperación de contraseña**
+- **Gestión de sesiones** con JWT
+- **Roles de usuario** (Admin, Empleado, Cliente)
+
+### 🏠 Página Principal
+- **Carrusel de imágenes** promocionales
+- **Productos destacados**
+- **Navegación por categorías**
+- **Búsqueda rápida**
+
+### 🛍️ Catálogo de Productos
+- **Vista de cuadrícula/lista**
+- **Filtros por categoría, precio, talla**
+- **Ordenamiento** (precio, nombre, fecha)
+- **Paginación** optimizada
+
+### ❤️ Sistema de Favoritos
+- **Agregar/quitar favoritos**
+- **Lista de productos favoritos**
+- **Sincronización** entre dispositivos
+
+### 🛒 Carrito de Compras
+- **Agregar productos** con variantes
+- **Modificar cantidades**
+- **Cálculo automático** de totales
+- **Persistencia** de datos
+
+### 💳 Proceso de Pago
+- **Formulario de envío**
+- **Métodos de pago** múltiples
+- **Confirmación de pedido**
+- **Envío de email** automático
+
+### 📦 Gestión de Pedidos
+- **Historial de pedidos**
+- **Estados de seguimiento**
+- **Detalles completos**
+- **Cancelación** de pedidos
+
+### 👥 Panel de Administración
+- **Dashboard** con métricas
+- **Gestión de usuarios**
+- **Administración de productos**
+- **Control de pedidos**
+
+## 🔧 Servicios y APIs
+
+### AuthService
+
+// Autenticación y autorización
+login(email: string, password: string): Observable<LoginResponse>
+register(userData: RegisterData): Observable<any>
+logout(): Observable<any>
+getCurrentUser(): Observable<any>
+isAuthenticated(): boolean
+isAdmin(): boolean
+```
+
+## ProductService
+
+ Gestión de productos
+getAllProducts(filters?: any): Observable<any>
+getProductById(id: string): Observable<any>
+createProduct(productData: Partial<Product>): Observable<any>
+updateProduct(id: string, productData: Partial<Product>): Observable<any>
+deleteProduct(id: string): Observable<any>
+```
+
+### CartService
+
+// Carrito de compras
+getCart(): Observable<CartResponse>
+addToCart(item: AddToCartRequest): Observable<any>
+updateCartItem(itemId: number, quantity: number): Observable<any>
+removeFromCart(itemId: number): Observable<any>
+clearCart(): Observable<any>
+```
+
+### OrderService
+
+// Gestión de pedidos
+getOrders(page?: number, status?: string): Observable<OrdersResponse>
+getOrder(id: string): Observable<OrderResponse>
+createOrder(orderData: CreateOrderRequest): Observable<OrderResponse>
+cancelOrder(id: string): Observable<OrderResponse>
+```
+
+### FavoriteService
+
+// Sistema de favoritos
+getFavorites(): Observable<FavoriteResponse>
+addToFavorites(productId: string): Observable<any>
+removeFromFavorites(productId: string): Observable<any>
+toggleFavorite(productId: string): Observable<any>
+```
 
 
 ## 📸 Capturas de Pantalla
