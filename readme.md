@@ -159,6 +159,7 @@
 
 ## 🔧 Servicios y APIs
 
+
 ### AuthService
 ```typescript
 // Autenticación y autorización
