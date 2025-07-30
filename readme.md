@@ -218,6 +218,8 @@ toggleFavorite(productId: string): Observable<any>
 
 *Página de inicio de sesión con validación de formularios y diseño responsive*
 
+
+
 ### 🏠 Niveles Usuarios 
 ![Pagina Usuario](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/carrusel.png)
 ![Pagina Administrador](https://github.com/YayisTorres/navysBackend-Fronted/blob/main/frontend/public/img/dashboartprincipal.png)
