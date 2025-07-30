@@ -160,7 +160,7 @@
 ## 🔧 Servicios y APIs
 
 ### AuthService
-
+```typescript
 // Autenticación y autorización
 login(email: string, password: string): Observable<LoginResponse>
 register(userData: RegisterData): Observable<any>
@@ -170,9 +170,9 @@ isAuthenticated(): boolean
 isAdmin(): boolean
 ```
 
-## ProductService
-
- Gestión de productos
+### ProductService
+```typescript
+// Gestión de productos
 getAllProducts(filters?: any): Observable<any>
 getProductById(id: string): Observable<any>
 createProduct(productData: Partial<Product>): Observable<any>
@@ -181,7 +181,7 @@ deleteProduct(id: string): Observable<any>
 ```
 
 ### CartService
-
+```typescript
 // Carrito de compras
 getCart(): Observable<CartResponse>
 addToCart(item: AddToCartRequest): Observable<any>
@@ -191,7 +191,7 @@ clearCart(): Observable<any>
 ```
 
 ### OrderService
-
+```typescript
 // Gestión de pedidos
 getOrders(page?: number, status?: string): Observable<OrdersResponse>
 getOrder(id: string): Observable<OrderResponse>
@@ -200,7 +200,7 @@ cancelOrder(id: string): Observable<OrderResponse>
 ```
 
 ### FavoriteService
-
+```typescript
 // Sistema de favoritos
 getFavorites(): Observable<FavoriteResponse>
 addToFavorites(productId: string): Observable<any>
